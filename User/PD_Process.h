@@ -24,7 +24,7 @@
 #define PD_SEL PD0
 #define UPD_TMR_RX_72M  (180-1)
 #define UPD_TMR_TX_72M  (120-1)
-#define REQUEST_MAX_VOLTAGE  (9000)
+#define REQUEST_MAX_VOLTAGE  (12000)
 
 #if(PD_SEL==PD0)
     #define USBPD ((USBPD_TypeDef *)USBPD0_BASE)
