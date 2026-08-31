@@ -1,24 +1,24 @@
 #ifndef __OPA_H
 #define __OPA_H
 
-#include "ch32m030.h" // ÇëÈ·±£ÒıÓÃÁËÕıÈ·µÄCH32M030±ê×¼¿âÍ·ÎÄ¼ş
+#include "ch32m030.h" // è¯·ç¡®ä¿å¼•ç”¨äº†æ­£ç¡®çš„CH32M030æ ‡å‡†åº“å¤´æ–‡ä»¶
 #include "ch32m030_conf.h"
 
-//#define REVISED_HARDWARE        1
+#define REVISED_HARDWARE        1
 
 #define TIMER1_PRESCALER_PWM    0
-#define TIM1_BREAK_IT_PRI       0   //TIMER1 BrakeÖĞ¶ÏÓÅÏÈ¼¶
+#define TIM1_BREAK_IT_PRI       0   //TIMER1 Brakeä¸­æ–­ä¼˜å…ˆçº§
 #define TIM1_UP_IT_PRI          1<<6
-#define TIM1_REPETITION         9   //1:Ã¿Á½¸öÖÜÆÚ²úÉúÒ»´ÎUPÖĞ¶Ï£¬0£ºÃ¿ÖÜÆÚÒ»´ÎÖĞ¶Ï£¬2£ºÃ¿3¸öÖÜÆÚÒ»´Î
+#define TIM1_REPETITION         9   //1:æ¯ä¸¤ä¸ªå‘¨æœŸäº§ç”Ÿä¸€æ¬¡UPä¸­æ–­ï¼Œ0ï¼šæ¯å‘¨æœŸä¸€æ¬¡ä¸­æ–­ï¼Œ2ï¼šæ¯3ä¸ªå‘¨æœŸä¸€æ¬¡
 
 /*TIM_CounterMode_CenterAligned1 (72000000/150000)/2 */
 //TIM_CounterMode_Up 72000000/150000
 #define TIMER1_PERIOD           360
 #define TIM_COMPARE_CC5         TIMER1_PERIOD - 5 
 
-//oxf->3.1V, 0x1->0.1V, 0.2V/bit£¬6-->1.1V£¬7-->1.3V
-//target I: 1.6 - 5.45A*0.005ohm*55  = 0.1V£¬¸ù¾İADC¶ÁÊıÔÙÏÂĞŞ0.3A£¬¹À¼Æ5.15AÉ²³µ
-//REVISED_HARDWARE 25ºÁÅ·*7.5A*8 = 1.5V, 1.6V-1.5V=0.1V£¬7.5AÉ²³µ
+//oxf->3.1V, 0x1->0.1V, 0.2V/bitï¼Œ6-->1.1Vï¼Œ7-->1.3V
+//target I: 1.6 - 5.45A*0.005ohm*55  = 0.1Vï¼Œæ ¹æ®ADCè¯»æ•°å†ä¸‹ä¿®0.3Aï¼Œä¼°è®¡5.15Aåˆ¹è½¦
+//REVISED_HARDWARE 25æ¯«æ¬§*7.5A*8 = 1.5V, 1.6V-1.5V=0.1Vï¼Œ7.5Aåˆ¹è½¦
 #define Protect_I_DACDAT              0
 
 #define ISN1_PIN    GPIO_Pin_8 
