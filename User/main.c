@@ -462,6 +462,7 @@ int main(void)
                 Fan_SetDuty((FAN_PWM_PERIOD/100)*duty_percent); //7200为100%，10KHz频率,这样计算只能到99%，先乘会溢出
                 pre_systemtick = systemtick;
             }
+            memset(buf,0,sizeof(buf));
             sprintf(buf,"%d.%01d,%d.%01d,%d.%01d",v12_mv/1000,(v12_mv%1000)/100,input_mv/1000,(input_mv%1000)/100,temperature_10x/10,temperature_10x%10);
             if(menu_activated == 0) OLED_ShowString_fast(0,48,buf,16);
             //ntc_mv=ADC_GetVoltage_mV(ADC_CH_NTC);
