@@ -32,8 +32,8 @@
 
 /* Global define */
 #define SOFT_START_PWM  3*TIMER1_PERIOD/10
-//Êä³öµçÑ¹²âÁ¿ÖµËÆºõÆ«Ğ¡Ò»µã£¬¼Ó50mvÔÙÏÔÊ¾µ½OLEDÉÏ
-//Ö»ÊÇĞŞÕıÏÔÊ¾£¬ÉèÖÃÖµ²»²Î¿¼Æ«ÒÆ
+//è¾“å‡ºç”µå‹æµ‹é‡å€¼ä¼¼ä¹åå°ä¸€ç‚¹ï¼ŒåŠ 50mvå†æ˜¾ç¤ºåˆ°OLEDä¸Š
+//åªæ˜¯ä¿®æ­£æ˜¾ç¤ºï¼Œè®¾ç½®å€¼ä¸å‚è€ƒåç§»
 #define SHOW_VOLTAGE_OFFSET 50
 
 
@@ -99,8 +99,8 @@ void TIM3_IRQHandler(void)
 
         if(count == 0) { 
             count = 100;
-            //ADC1->CTLR2 |= ADC_SWSTART;  //Ö±½Ó²Ù×÷¼Ä´æÆ÷£¬±Èµ÷ÓÃ¿âº¯Êı¸ü¿ì
-            ADC_SoftwareStartConvCmd(ADC1, ENABLE); // ¿ªÊ¼¹æÔò×é×ª»»
+            //ADC1->CTLR2 |= ADC_SWSTART;  //ç›´æ¥æ“ä½œå¯„å­˜å™¨ï¼Œæ¯”è°ƒç”¨åº“å‡½æ•°æ›´å¿«
+            ADC_SoftwareStartConvCmd(ADC1, ENABLE); // å¼€å§‹è§„åˆ™ç»„è½¬æ¢
         }
 
     }
@@ -109,7 +109,7 @@ void TIM3_IRQHandler(void)
 
 
 void Recovery_From_Brake(void){
-    // 2. ÖØĞÂÊ¹ÄÜÖ÷Êä³ö (MOE)
+    // 2. é‡æ–°ä½¿èƒ½ä¸»è¾“å‡º (MOE)
     TIM_CtrlPWMOutputs(TIM1, ENABLE);
 }
 
@@ -132,13 +132,13 @@ void GPIO_Toggle_INIT(void)
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
 
-    GPIO_ResetBits(GPIOB, GPIO_Pin_12); // Ä¬ÈÏ½ûÓÃ
+    GPIO_ResetBits(GPIOB, GPIO_Pin_12); // é»˜è®¤ç¦ç”¨
 }
 
 /*********************************************************************
  * @fn      Button_Init
  *
- * @brief   ³õÊ¼»¯°´Å¥ (PC4)
+ * @brief   åˆå§‹åŒ–æŒ‰é’® (PC4)
  *
  * @return  none
  */
@@ -147,14 +147,14 @@ void Button_Init(void) {
     RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOC, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; // ÉÏÀ­ÊäÈë
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; // ä¸Šæ‹‰è¾“å…¥
     GPIO_Init(GPIOC, &GPIO_InitStructure);
 }
 
 /*********************************************************************
  * @fn      InputEnable_Init
  *
- * @brief   ³õÊ¼»¯Ç°¼¶ÊäÈëÊ¹ÄÜ (PC2)
+ * @brief   åˆå§‹åŒ–å‰çº§è¾“å…¥ä½¿èƒ½ (PC2)
  *
  * @return  none
  */
@@ -163,17 +163,17 @@ void InputEnable_Init(void) {
     RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOC, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // ÍÆÍìÊä³ö
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // æ¨æŒ½è¾“å‡º
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
 
-    GPIO_ResetBits(GPIOC, GPIO_Pin_2); // Ä¬ÈÏ½ûÓÃ
+    GPIO_ResetBits(GPIOC, GPIO_Pin_2); // é»˜è®¤ç¦ç”¨
 }
 
 /*********************************************************************
  * @fn      OutputEnable_Init
  *
- * @brief   ³õÊ¼»¯Êä³öÊ¹ÄÜ (PB4)
+ * @brief   åˆå§‹åŒ–è¾“å‡ºä½¿èƒ½ (PB4)
  *
  * @return  none
  */
@@ -182,11 +182,11 @@ void PB4_Init(void) {
     RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOB, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // ÍÆÍìÊä³ö
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // æ¨æŒ½è¾“å‡º
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
 
-    GPIO_ResetBits(GPIOC, GPIO_Pin_2); // Ä¬ÈÏ½ûÓÃ
+    GPIO_ResetBits(GPIOC, GPIO_Pin_2); // é»˜è®¤ç¦ç”¨
 }
 
 //show voltage related line on OLED
@@ -195,7 +195,7 @@ void PB4_Init(void) {
 void OLED_ShowVoltage(int16_t diff){
     char buf[32];
 #ifdef REVISED_HARDWARE
-    //²âÁ¿ÖµËÆºõÆ«Ğ¡Ò»Ğ©£¬¼Ó50mvĞŞÕıÏÔÊ¾½á¹û
+    //æµ‹é‡å€¼ä¼¼ä¹åå°ä¸€äº›ï¼ŒåŠ 50mvä¿®æ­£æ˜¾ç¤ºç»“æœ
     int32_t current_voltage=ADC_GetOutputVoltage_mV() + SHOW_VOLTAGE_OFFSET;
 #else
      int32_t current_voltage=ADC_GetOutputVoltage_mV();   
@@ -224,9 +224,9 @@ void OLED_ShowCurrent(int16_t diff){
     char buf[32];  
     int32_t current_i=ADC_GetCurrent_mA();
                
-    // ¼òµ¥µÄÊı×ÖÂË²¨ (IIR)
+    // ç®€å•çš„æ•°å­—æ»¤æ³¢ (IIR)
     static int32_t filtered_i = 0;
-    filtered_i = (filtered_i * 3 + current_i) >> 2; // 1/4 È¨ÖØÂË²¨
+    filtered_i = (filtered_i * 3 + current_i) >> 2; // 1/4 æƒé‡æ»¤æ³¢
 
     int32_t target_i=ADC_GetTargetCurrent_mA();
     //printf("target current: %d\r\n",target_i);
@@ -245,7 +245,7 @@ void OLED_ShowCurrent(int16_t diff){
 // manual PWM soft start
 void pwm_soft_start(uint16_t target_duty) {
 
-    //×îĞ¡´Ó360/12=30,360/10=36¿ÉÒÔµ«ËÆºõÆ«´ó
+    //æœ€å°ä»360/12=30,360/10=36å¯ä»¥ä½†ä¼¼ä¹åå¤§
     uint16_t current_duty = TIMER1_PERIOD/12;
 
     if(target_duty <= 0){
@@ -255,46 +255,46 @@ void pwm_soft_start(uint16_t target_duty) {
     }else{
 
         for (current_duty = TIMER1_PERIOD/10; current_duty <= target_duty; current_duty++) {
-            // ¸üĞÂ PWM ¼Ä´æÆ÷µÄÖµ
-            // CH32 Ê¹ÓÃ TIM_SetCompareX; ESP32 Ê¹ÓÃ ledcWrite
+            // æ›´æ–° PWM å¯„å­˜å™¨çš„å€¼
+            // CH32 ä½¿ç”¨ TIM_SetCompareX; ESP32 ä½¿ç”¨ ledcWrite
             TIM_SetCompare1(TIM1, (uint16_t)current_duty);
 
-            // ÑÓÊ±ÒÔ¿ØÖÆÆô¶¯ËÙ¶È
+            // å»¶æ—¶ä»¥æ§åˆ¶å¯åŠ¨é€Ÿåº¦
             Delay_Us(100); 
         }
     }
 }
 
 /**
- * @brief ¸ù¾İ10±¶ÎÂ¶È¼ÆËã·çÉÈÕ¼¿Õ±È
- * @param temp_x10 ÊäÈëµÄ10±¶ÎÂ¶È (ÀıÈç: 35¶ÈÊäÈë350, 70¶ÈÊäÈë700)
- * @return uint8_t ·çÉÈDuty°Ù·Ö±È (0 - 100)
+ * @brief æ ¹æ®10å€æ¸©åº¦è®¡ç®—é£æ‰‡å ç©ºæ¯”
+ * @param temp_x10 è¾“å…¥çš„10å€æ¸©åº¦ (ä¾‹å¦‚: 35åº¦è¾“å…¥350, 70åº¦è¾“å…¥700)
+ * @return uint8_t é£æ‰‡Dutyç™¾åˆ†æ¯” (0 - 100)
  */
 uint8_t calculate_fan_duty(int16_t temp_x10)
 {
-    // µÍÓÚ 35.0¡æ (350)£¬·çÉÈ¹Ø±Õ
+    // ä½äº 35.0â„ƒ (350)ï¼Œé£æ‰‡å…³é—­
     if (temp_x10 <= 350) {
         return 0;
     }
-    // ¸ßÓÚµÈÓÚ 70.0¡æ (700)£¬·çÉÈÈ«ËÙ
+    // é«˜äºç­‰äº 70.0â„ƒ (700)ï¼Œé£æ‰‡å…¨é€Ÿ
     if (temp_x10 >= 700) {
         return 100;
     }
 
-    // ÖĞ¼äÉèÖÃ 2 ¸ö¿ØÖÆµã½øĞĞ·Ö¶ÎÏßĞÔ²åÖµ
-    // µã1: 45.0¡æ (450) -> ÉèÕ¼¿Õ±È 30%
-    // µã2: 60.0¡æ (600) -> ÉèÕ¼¿Õ±È 70%
+    // ä¸­é—´è®¾ç½® 2 ä¸ªæ§åˆ¶ç‚¹è¿›è¡Œåˆ†æ®µçº¿æ€§æ’å€¼
+    // ç‚¹1: 45.0â„ƒ (450) -> è®¾å ç©ºæ¯” 30%
+    // ç‚¹2: 60.0â„ƒ (600) -> è®¾å ç©ºæ¯” 70%
     
     if (temp_x10 < 450) {
-        // Çø¼ä 35.0¡æ ~ 45.0¡æ (Duty: 0% ~ 30%)
+        // åŒºé—´ 35.0â„ƒ ~ 45.0â„ƒ (Duty: 0% ~ 30%)
         return (uint8_t)(0L + (int32_t)(temp_x10 - 350) * (30 - 0) / (450 - 350));
     }
     else if (temp_x10 < 600) {
-        // Çø¼ä 45.0¡æ ~ 60.0¡æ (Duty: 30% ~ 70%)
+        // åŒºé—´ 45.0â„ƒ ~ 60.0â„ƒ (Duty: 30% ~ 70%)
         return (uint8_t)(30L + (int32_t)(temp_x10 - 450) * (70 - 30) / (600 - 450));
     }
     else {
-        // Çø¼ä 60.0¡æ ~ 70.0¡æ (Duty: 70% ~ 100%)
+        // åŒºé—´ 60.0â„ƒ ~ 70.0â„ƒ (Duty: 70% ~ 100%)
         return (uint8_t)(70L + (int32_t)(temp_x10 - 600) * (100 - 70) / (700 - 600));
     }
 }
@@ -317,9 +317,9 @@ int main(void)
     u8 brake_retry_count= 0;
     u8 duty_percent= 0;
 
-    //uint8_t color_state = 0; // 0:ºìÉ«, 1:ÂÌÉ«, 2:À¶É«
+    //uint8_t color_state = 0; // 0:çº¢è‰², 1:ç»¿è‰², 2:è“è‰²
     uint16_t prediff = 0,circle = 0,precnt = 0,cnt = 0;
-    char buf[32];
+    char buf[32]={0};
     uint16_t buttoncnt = 0;
     uint32_t pre_systemtick=0,peroid=0;
     uint32_t led_systemtick=0,oled_systemtick=0;
@@ -343,11 +343,11 @@ int main(void)
     printf("GPIO Toggle TEST\r\n");
     GPIO_Toggle_INIT();
 
-    //³ÌĞò¿ªÊ¼ÑÓÊ±8Ãë£¬ÒÔ±ãËÀ»úÊ±¿ÉÒÔË¢Ğ´³ÌĞò
-    //Í¬Ê±µãÁÁÂÌÉ«LED£¬ÑÓÊ±½áÊøºóÏ¨Ãğ
+    //ç¨‹åºå¼€å§‹å»¶æ—¶8ç§’ï¼Œä»¥ä¾¿æ­»æœºæ—¶å¯ä»¥åˆ·å†™ç¨‹åº
+    //åŒæ—¶ç‚¹äº®ç»¿è‰²LEDï¼Œå»¶æ—¶ç»“æŸåç†„ç­
     GPIO_WriteBit(GPIOB, GPIO_Pin_12, Bit_SET);
     for(int i = 0; i < 20; i++) {
-        Delay_Ms(100); // 100msÎªµ¥Î»¿ÉÒÔ×ÔÓÉµ÷ÕûÑÓÊ±³¤¶È
+        Delay_Ms(100); // 100msä¸ºå•ä½å¯ä»¥è‡ªç”±è°ƒæ•´å»¶æ—¶é•¿åº¦
     }
     GPIO_WriteBit(GPIOB, GPIO_Pin_12, Bit_RESET);
 
@@ -361,7 +361,7 @@ int main(void)
         
     myADC_Init();
      
-    Fan_Init();  //»á³õÊ¼»¯T3ÖĞ¶Ï£¬T3ÖĞ¶ÏÀï»áÆô¶¯ADC×ª»»
+    Fan_Init();  //ä¼šåˆå§‹åŒ–T3ä¸­æ–­ï¼ŒT3ä¸­æ–­é‡Œä¼šå¯åŠ¨ADCè½¬æ¢
 
     
     //Set PB4 to GPIO Mode
@@ -373,7 +373,7 @@ int main(void)
     output_enabled = 0;
 
     WS2812B_DMA_SPI_Init();
-    WS2812B_Send_GRB(0, 0, 0); //ÈÃws2812B²»ÔÙµãÁÁ£¬ÒÔÃâ±£³Ö¸´Î»Ç°×´Ì¬
+    WS2812B_Send_GRB(0, 0, 0); //è®©ws2812Bä¸å†ç‚¹äº®ï¼Œä»¥å…ä¿æŒå¤ä½å‰çŠ¶æ€
 
     //FanGPIO_Init();
     
@@ -388,7 +388,7 @@ int main(void)
     OPA4_Init();
  
 
-    Timer_Configure();  //¿ªÊ¼×¢Èë×é²ÉÑù
+    Timer_Configure();  //å¼€å§‹æ³¨å…¥ç»„é‡‡æ ·
 
     //OLED_Clear();
     OLED_Clear_DMA();
@@ -396,15 +396,15 @@ int main(void)
     //OLED_Refresh();
     OLED_ShowString_fast(0,32,"OFF",16);
 
-    //ÉèÖÃ·çÉÈ×ªËÙÎª0%
-    Fan_SetDuty(0); //7199Îª100%£¬10KHzÆµÂÊ
+    //è®¾ç½®é£æ‰‡è½¬é€Ÿä¸º0%
+    Fan_SetDuty(0); //7199ä¸º100%ï¼Œ10KHzé¢‘ç‡
 
     //peroid = systemtick - pre_systemtick;
     //pre_systemtick = systemtick;
 
     //ADC_SoftwareStartInjectedConvCmd(ADC1,ENABLE);
 
-    //È·¶¨ÉèÖÃÕ¼¿Õ±È0
+    //ç¡®å®šè®¾ç½®å ç©ºæ¯”0
     TIM_SetCompare1(TIM1, (uint16_t)0);
 
     //Update_CFG();
@@ -454,12 +454,12 @@ int main(void)
             adc_cnt_p = adc_cnt;
             v12_mv = ADC_Get12VVoltage_mV();
             input_mv = ADC_GetInputVoltage_mV();
-            //ËÆºõ¼ÆËã½á¹ûµÍ400mV?£¬ĞŞÕıÒ»ÏÂ
+            //ä¼¼ä¹è®¡ç®—ç»“æœä½400mV?ï¼Œä¿®æ­£ä¸€ä¸‹
             //input_mv +=400;
             temperature_10x = ADC_GetTemperature_x10();
             if(peroid >= 20000){
                 duty_percent = calculate_fan_duty(temperature_10x);
-                Fan_SetDuty((FAN_PWM_PERIOD/100)*duty_percent); //7200Îª100%£¬10KHzÆµÂÊ,ÕâÑù¼ÆËãÖ»ÄÜµ½99%£¬ÏÈ³Ë»áÒç³ö
+                Fan_SetDuty((FAN_PWM_PERIOD/100)*duty_percent); //7200ä¸º100%ï¼Œ10KHzé¢‘ç‡,è¿™æ ·è®¡ç®—åªèƒ½åˆ°99%ï¼Œå…ˆä¹˜ä¼šæº¢å‡º
                 pre_systemtick = systemtick;
             }
             sprintf(buf,"%d.%01d,%d.%01d,%d.%01d",v12_mv/1000,(v12_mv%1000)/100,input_mv/1000,(input_mv%1000)/100,temperature_10x/10,temperature_10x%10);
@@ -489,8 +489,8 @@ int main(void)
             circle = cnt>>2;
             int16_t diff = (int16_t)(cnt - precnt);
 
-            //Ïû³ı±àÂëÆ÷Í£×ªºóµÄ»ØÌøÒ»¸ñÏÖÏó
-            //²»È·¶¨ÊÇ±àÂëÆ÷»¹ÊÇ¸ÉÈÅ£¬Õâ¸ö°ì·¨ËÆºõÃ»ÓĞÊ²Ã´ÓÃ
+            //æ¶ˆé™¤ç¼–ç å™¨åœè½¬åçš„å›è·³ä¸€æ ¼ç°è±¡
+            //ä¸ç¡®å®šæ˜¯ç¼–ç å™¨è¿˜æ˜¯å¹²æ‰°ï¼Œè¿™ä¸ªåŠæ³•ä¼¼ä¹æ²¡æœ‰ä»€ä¹ˆç”¨
             /*if (diff*prediff <0){
                 diff = 0;
                 prediff = 0;
@@ -521,7 +521,7 @@ int main(void)
         }
         /*if (GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_4) == Bit_RESET) 
         {
-            // °´Å¥±»°´ÏÂ£¬Ö´ĞĞ¶¯×÷
+            // æŒ‰é’®è¢«æŒ‰ä¸‹ï¼Œæ‰§è¡ŒåŠ¨ä½œ
             buttoncnt++;
             sprintf(buf," %u", buttoncnt);
             //OLED_ShowString(0, 48, buf, 16, 0);
@@ -529,10 +529,10 @@ int main(void)
             //WS2812B_Send_GRB(0, 50, 0);
         }*/
         if (event_flag) {
-            // Í£Ö¹ÖĞ¶Ï»òÇå³ı±êÖ¾Î»£¬·ÀÖ¹¼ÆËãÆÚ¼äÊı¾İ¸Ä±ä
+            // åœæ­¢ä¸­æ–­æˆ–æ¸…é™¤æ ‡å¿—ä½ï¼Œé˜²æ­¢è®¡ç®—æœŸé—´æ•°æ®æ”¹å˜
             event_flag = 0; 
 
-            // ¼ÆËã°´ÏÂ³ÖĞøÊ±¼ä£¨´¦Àí Tick Òç³öµÄÂß¼­ÊÓ¾ßÌåÏµÍ³¶ø¶¨£©
+            // è®¡ç®—æŒ‰ä¸‹æŒç»­æ—¶é—´ï¼ˆå¤„ç† Tick æº¢å‡ºçš„é€»è¾‘è§†å…·ä½“ç³»ç»Ÿè€Œå®šï¼‰
             uint32_t duration = 0;
             if (release_ticks >= press_ticks) {
                 duration = release_ticks - press_ticks;
@@ -540,52 +540,52 @@ int main(void)
             
             
 
-            // Ïû¶¶Âß¼­£ºÈç¹û°´ÏÂÊ±¼äÌ«¶Ì£¨ÈçĞ¡ÓÚ 20ms£©£¬ÊÓÎªÔëÉù
+            // æ¶ˆæŠ–é€»è¾‘ï¼šå¦‚æœæŒ‰ä¸‹æ—¶é—´å¤ªçŸ­ï¼ˆå¦‚å°äº 20msï¼‰ï¼Œè§†ä¸ºå™ªå£°
             if (duration > 200) {
-                printf("°´¼ü´¥·¢£¡³ÖĞøÊ±¼ä: %u ms\n", duration);
+                printf("æŒ‰é”®è§¦å‘ï¼æŒç»­æ—¶é—´: %u ms\n", duration);
                 
-                // Äã¿ÉÒÔÔÚÕâÀï¸ù¾İ duration ÅĞ¶ÏÊÇ¡°¶Ì°´¡±»¹ÊÇ¡°³¤°´¡±
+                // ä½ å¯ä»¥åœ¨è¿™é‡Œæ ¹æ® duration åˆ¤æ–­æ˜¯â€œçŸ­æŒ‰â€è¿˜æ˜¯â€œé•¿æŒ‰â€
                 if (duration > 6000 && menu_activated == 0) {
-                    //³¤°´¿ªÆô»ò¹Ø±ÕÊä³ö£¬¿ªÆôÊä³ö¿ÉÄÜ»¹ĞèÒª¸´Î»TIM1_BREAK
+                    //é•¿æŒ‰å¼€å¯æˆ–å…³é—­è¾“å‡ºï¼Œå¼€å¯è¾“å‡ºå¯èƒ½è¿˜éœ€è¦å¤ä½TIM1_BREAK
                 
                     if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_4) == Bit_RESET) {
-                        //¿ªÆôÊäÈë²¢µÈ´ıÊäÈëµçÈİ³äµç
-                        //µçÑ¹¸ßÓÚ6V²ÅÊ¹ÓÃ34VÊä³ö£¬·ñÔòÊ¹ÓÃÄ¬ÈÏ18VÊä³ö
+                        //å¼€å¯è¾“å…¥å¹¶ç­‰å¾…è¾“å…¥ç”µå®¹å……ç”µ
+                        //ç”µå‹é«˜äº6Væ‰ä½¿ç”¨34Vè¾“å‡ºï¼Œå¦åˆ™ä½¿ç”¨é»˜è®¤18Vè¾“å‡º
                         int32_t target_v=ADC_GetTargetOutputVoltage_mv();
                         if(target_v >= 6000){
                             GPIO_WriteBit(GPIOC, GPIO_Pin_2, Bit_SET);
                             Delay_Ms(200);
                         }
-                        //²âÊÔÆÚ¼ä£¬³¤°´¿ªÆôÊä³ö£¬duty 10%
-                        //´ò¿ªeg2104sÊ¹ÄÜĞÅºÅ£¬pidËã·¨¿ªÊ¼µ÷ÕûÕ¼¿Õ±È
+                        //æµ‹è¯•æœŸé—´ï¼Œé•¿æŒ‰å¼€å¯è¾“å‡ºï¼Œduty 10%
+                        //æ‰“å¼€eg2104sä½¿èƒ½ä¿¡å·ï¼Œpidç®—æ³•å¼€å§‹è°ƒæ•´å ç©ºæ¯”
                         GPIO_WriteBit(GPIOB, GPIO_Pin_4, Bit_SET);
                         //pwm_soft_start(TIMER1_PERIOD/10);
                         output_enabled = 1;
                         //pwm_soft_start((uint16_t)SOFT_START_PWM);
                     
-                        //WS2812BµÄÑÕÉ«ÉèÖÃÎªÂÌÉ«
+                        //WS2812Bçš„é¢œè‰²è®¾ç½®ä¸ºç»¿è‰²
                         led_color = 2;
                         //if(menu_activated == 0){
                         OLED_ShowString_fast(0,32,"ON ",16);
                         oled_changed = 1;
                         //}
                     }else{
-                        //¹Ø±ÕÊä³öeg2104sÊ¹ÄÜĞÅºÅ
+                        //å…³é—­è¾“å‡ºeg2104sä½¿èƒ½ä¿¡å·
                         GPIO_WriteBit(GPIOB, GPIO_Pin_4, Bit_RESET);
-                        //¹Ø±ÕpwmºÍ¸´Î»»ıÀÛpidµÄÓàÁ¿
+                        //å…³é—­pwmå’Œå¤ä½ç§¯ç´¯pidçš„ä½™é‡
                         output_enabled = 0;
                         //pwm_soft_start((uint16_t)0);
-                        //¹Ø±ÕÊäÈëµçÑ¹
+                        //å…³é—­è¾“å…¥ç”µå‹
                         GPIO_WriteBit(GPIOC, GPIO_Pin_2, Bit_RESET);
 
                     
-                        //WS2812BµÄÑÕÉ«ÉèÖÃÎªºìÉ«
+                        //WS2812Bçš„é¢œè‰²è®¾ç½®ä¸ºçº¢è‰²
                         led_color = 1;   
                         OLED_ShowString_fast(0,32,"OFF",16);
                         oled_changed = 1;
                     }
                 } else {
-                    //Ë«»÷£¬Á½´ÎreleaseÖ®¼äĞ¡ÓÚ800ms
+                    //åŒå‡»ï¼Œä¸¤æ¬¡releaseä¹‹é—´å°äº800ms
                     if(buttoncnt != 0 && release_ticks - pre_release_ticks < 8000){
                         Enter_Menu();
                         menu_activated = 1;
@@ -600,16 +600,16 @@ int main(void)
             }
         }
 
-        //°´¼üµ¥»÷´¦Àí£¬²»ÄÜ·ÅÔÚevent_flagÑ­»·Àï
-        //releaseÒÔºó900msÎŞÆäËûÊÂ¼ş£¬°´µ¥»÷´¦Àí
+        //æŒ‰é”®å•å‡»å¤„ç†ï¼Œä¸èƒ½æ”¾åœ¨event_flagå¾ªç¯é‡Œ
+        //releaseä»¥å900msæ— å…¶ä»–äº‹ä»¶ï¼ŒæŒ‰å•å‡»å¤„ç†
         if(pre_release_ticks != 0 && systemtick - pre_release_ticks > 9000){
             if(menu_activated){
                 Process_Menu(1,0);
                 oled_changed = 1;
             }else{
                 set_voltage = set_voltage?0:1;
-                //ÏÂÃæÂß¼­ÓÃÓÚµ¥»÷ÇĞ»»µçÑ¹µçÁ÷ÉèÖÃºÍ´æ´¢ÅäÖÃ
-                //¸Ğ¾õÊ¹ÓÃ±È½Ï±ğÅ¤¹Ê²»²ÉÓÃ´Ë·½Ê½
+                //ä¸‹é¢é€»è¾‘ç”¨äºå•å‡»åˆ‡æ¢ç”µå‹ç”µæµè®¾ç½®å’Œå­˜å‚¨é…ç½®
+                //æ„Ÿè§‰ä½¿ç”¨æ¯”è¾ƒåˆ«æ‰­æ•…ä¸é‡‡ç”¨æ­¤æ–¹å¼
                 //printf("button_switch: %d\r\n",button_switch);
                 /*switch(button_switch){
                     case 0:
@@ -629,24 +629,24 @@ int main(void)
         }
 
         if(tim1_break){
-            //È·¶¨ÉèÖÃÕ¼¿Õ±È0
+            //ç¡®å®šè®¾ç½®å ç©ºæ¯”0
             TIM_SetCompare1(TIM1, (uint16_t)0);
             tim1_break = 0;
 
             if(config_buffer.autorecovery && brake_retry_count){
-                //³¢ÊÔ´Óbrake×´Ì¬»Ö¸´
-                //ÏÈ¹Ø±ÕÊä³ö
+                //å°è¯•ä»brakeçŠ¶æ€æ¢å¤
+                //å…ˆå…³é—­è¾“å‡º
                 brake_retry_count--;
                 
 
                 Recovery_From_Brake();
 
-                //´ò¿ªÇ°¼¶µçÔ´34.2VÊä³ö
+                //æ‰“å¼€å‰çº§ç”µæº34.2Vè¾“å‡º
                 GPIO_SetBits(GPIOC, GPIO_Pin_2);             
 
                 Delay_Us(100);
 
-                //´ò¿ªeg2104sÊä³öÊ¹ÄÜĞÅºÅ
+                //æ‰“å¼€eg2104sè¾“å‡ºä½¿èƒ½ä¿¡å·
                 GPIO_WriteBit(GPIOB, GPIO_Pin_4, Bit_SET);
 
                 Delay_Us(50);
@@ -688,7 +688,7 @@ int main(void)
         }
 
         //Delay_Ms(500);
-        //300ms¸Ä±äled×´Ì¬Ò»´Î
+        //300msæ”¹å˜ledçŠ¶æ€ä¸€æ¬¡
         if (systemtick -led_systemtick > 3000){
 
             led_systemtick = systemtick;
@@ -703,18 +703,18 @@ int main(void)
             switch (led_color) 
             {
                 case 1:
-                    WS2812B_Send_GRB(0, 25, 0);   // ÉèÖÃÎªºìÉ«(G=0, R=255, B=0)
-                    led_updated = 1;               // ÏÂÒ»´ÎÉèÖÃÎªÂÌÉ«
+                    WS2812B_Send_GRB(0, 25, 0);   // è®¾ç½®ä¸ºçº¢è‰²(G=0, R=255, B=0)
+                    led_updated = 1;               // ä¸‹ä¸€æ¬¡è®¾ç½®ä¸ºç»¿è‰²
                     break;
                 
                 case 2:
-                    WS2812B_Send_GRB(25, 0, 0);   // ÉèÖÃÎªÂÌÉ« (G=255, R=0, B=0)
-                    led_updated = 1;             // ÏÂÒ»´ÎÉèÖÃÎªÀ¶É«
+                    WS2812B_Send_GRB(25, 0, 0);   // è®¾ç½®ä¸ºç»¿è‰² (G=255, R=0, B=0)
+                    led_updated = 1;             // ä¸‹ä¸€æ¬¡è®¾ç½®ä¸ºè“è‰²
                     break;
                 
                 case 3:
-                    WS2812B_Send_GRB(0, 0, 25);   // ÉèÖÃÎªÀ¶É« (G=0, R=0, B=255)
-                    led_updated = 1;             // ÏÂÒ»´ÎÉèÖÃÎªºìÉ«
+                    WS2812B_Send_GRB(0, 0, 25);   // è®¾ç½®ä¸ºè“è‰² (G=0, R=0, B=255)
+                    led_updated = 1;             // ä¸‹ä¸€æ¬¡è®¾ç½®ä¸ºçº¢è‰²
                     break;
                 
                 default:
