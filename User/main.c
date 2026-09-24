@@ -407,8 +407,8 @@ int main(void)
     //确定设置占空比0
     TIM_SetCompare1(TIM1, (uint16_t)0);
 
-    //Update_CFG();
-    Load_Default_CFG();
+    Update_CFG();
+    //Load_Default_CFG();
 
     ADC_SetOutputVoltage_mv(config_buffer.VoltTarget[config_buffer.selected]);
     ADC_SetCurrent_mA(config_buffer.CurrentTarget[config_buffer.selected]);
@@ -464,7 +464,7 @@ int main(void)
             }
             memset(buf,0,sizeof(buf));
             sprintf(buf,"%d.%01d,%d.%01d,%d.%01d",v12_mv/1000,(v12_mv%1000)/100,input_mv/1000,(input_mv%1000)/100,temperature_10x/10,temperature_10x%10);
-            if(menu_activated == 0) OLED_ShowString_fast(0,48,buf,16);
+            if(menu_activated == 0) OLED_ShowString_fast(1,48,buf,16);
             //ntc_mv=ADC_GetVoltage_mV(ADC_CH_NTC);
             //sprintf(buf,"12: %d ",v12_mv);
             //OLED_ShowString(0,0,buf,16,0);
