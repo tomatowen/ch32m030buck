@@ -156,8 +156,8 @@ void OLED_Refresh_DMA(void) {
 
     if (oled_state != OLED_IDLE) return; // 上一帧还没发完，直接跳过
     // 1. 先通过常规或单次写发送定位命令（页寻址或水平寻址：定位到 Page0, Col 0）
-    OLED_WR_Cmd(0x20); // 设置寻址模式
-    OLED_WR_Cmd(0x00); // 水平寻址模式
+    //OLED_WR_Cmd(0x20); // 设置寻址模式
+    //OLED_WR_Cmd(0x00); // 水平寻址模式
     //OLED_WR_Cmd(0x40); // 【关键】设置显示起始行（Display Start Line）为 0 (0x40 表示起始行 0)
     //OLED_WR_Cmd(0xB0); // 页地址 0
     //OLED_WR_Cmd(0x00); // 列低地址
@@ -1017,8 +1017,8 @@ void OLED_Init(void) {
     OLED_WR_Cmd(0xAE); // 关闭显示
 
     OLED_WR_Cmd(0x20); // 设置内存寻址模式
-    OLED_WR_Cmd(0x10); // 00:水平, 01:垂直, 10:页(默认)
-    //OLED_WR_Cmd(0x00); 
+    //OLED_WR_Cmd(0x10); // 00:水平, 01:垂直, 10:页(默认)
+    OLED_WR_Cmd(0x00); 
 
     OLED_WR_Cmd(0xB0); // 设置页起始地址 0~7
 
