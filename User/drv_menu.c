@@ -1,11 +1,11 @@
 #include "drv_menu.h"
 
 
-// ¼ÙÉèÄãµÄÏÔ´æÊÇ OLED_GRAM[8][128]£¬¹² 1024 ×Ö½Ú
+// å‡è®¾ä½ çš„æ˜¾å­˜æ˜¯ OLED_GRAM[8][128]ï¼Œå…± 1024 å­—èŠ‚
 static uint8_t OLED_BgBuffer[8][128];
 uint8_t menu_activated=0,menu1_activated=0;
 int8_t item_selected=0,menu1_item_selected=0,menu1_item_max=0;
-/* ²Ëµ¥ÏîÎÄ±¾ */
+/* èœå•é¡¹æ–‡æœ¬ */
 static const char *s_menu_items[MENU_COUNT] = {
     "LoadConfig",
     "SaveTo",
@@ -20,16 +20,16 @@ static const char *s_menu_items[MENU_COUNT] = {
 
 void menu1_show_config_list(uint8_t focused){
     uint8_t i;
-    // 1. ¼ÆËãµ±Ç°¾Û½¹ÏîËùÔÚµÄÒ³Âë (´Ó 1 ¿ªÊ¼)
+    // 1. è®¡ç®—å½“å‰èšç„¦é¡¹æ‰€åœ¨çš„é¡µç  (ä» 1 å¼€å§‹)
     uint8_t page = (focused / ITEMS_PER_PAGE) + 1;
     
-    // 2. ¼ÆËãµ±Ç°ÏîÔÚµ±Ç°Ò³ÄÚµÄÏà¶ÔË÷Òı (0 ~ ITEMS_PER_PAGE-1)
+    // 2. è®¡ç®—å½“å‰é¡¹åœ¨å½“å‰é¡µå†…çš„ç›¸å¯¹ç´¢å¼• (0 ~ ITEMS_PER_PAGE-1)
     uint8_t itemnum = focused % ITEMS_PER_PAGE;
     
-    // 3. ¼ÆËãµ±Ç°Ò³µÄÆğÊ¼²Ëµ¥ÏîË÷Òı
+    // 3. è®¡ç®—å½“å‰é¡µçš„èµ·å§‹èœå•é¡¹ç´¢å¼•
     uint8_t start_index = (page - 1) * ITEMS_PER_PAGE;
     
-    // 4. ¼ÆËãµ±Ç°Ò³µÄ½áÊø²Ëµ¥ÏîË÷Òı£¨·ÀÖ¹Ô½½ç£©
+    // 4. è®¡ç®—å½“å‰é¡µçš„ç»“æŸèœå•é¡¹ç´¢å¼•ï¼ˆé˜²æ­¢è¶Šç•Œï¼‰
     uint8_t end_index = start_index + ITEMS_PER_PAGE;
     if (end_index > menu1_item_max) {
         end_index = menu1_item_max;
@@ -37,12 +37,12 @@ void menu1_show_config_list(uint8_t focused){
     
     OLED_Clear();
     
-    // 5. Ñ­»·»æÖÆµ±Ç°Ò³µÄÏî£¬Y ×ø±êÓ¦¸Ã¸ù¾İ¡°Ò³ÄÚĞĞºÅ (i - start_index)¡±À´¼ÆËã£¡
+    // 5. å¾ªç¯ç»˜åˆ¶å½“å‰é¡µçš„é¡¹ï¼ŒY åæ ‡åº”è¯¥æ ¹æ®â€œé¡µå†…è¡Œå· (i - start_index)â€æ¥è®¡ç®—ï¼
     for(i = start_index; i < end_index; i++){
-        uint8_t row_line = i - start_index; // Ò³ÄÚµÚ¼¸ĞĞ (0, 1, 2...)
+        uint8_t row_line = i - start_index; // é¡µå†…ç¬¬å‡ è¡Œ (0, 1, 2...)
 
         if (i == menu1_item_max-1) {
-             OLED_ShowString_fast(0, row_line * MENU_FONT_HEIGHT, "<---- Return", MENU_FONT_HEIGHT); // »òÕßÏÔÊ¾ "<----"
+             OLED_ShowString_fast(0, row_line * MENU_FONT_HEIGHT, "<---- Return", MENU_FONT_HEIGHT); // æˆ–è€…æ˜¾ç¤º "<----"
         } else {
         
             OLED_ShowNum(0, row_line * MENU_FONT_HEIGHT, i + 1, 1, MENU_FONT_HEIGHT);
@@ -51,7 +51,7 @@ void menu1_show_config_list(uint8_t focused){
         }
     }
     
-    // 6. ¸ßÁÁµ±Ç°Ñ¡ÖĞµÄĞĞ£¨Ö±½ÓÓÃ itemnum ×÷ÎªÒ³ÄÚĞĞºÅ£©
+    // 6. é«˜äº®å½“å‰é€‰ä¸­çš„è¡Œï¼ˆç›´æ¥ç”¨ itemnum ä½œä¸ºé¡µå†…è¡Œå·ï¼‰
     OLED_ReverseArea(0, itemnum * MENU_FONT_HEIGHT, MENU_PANEL_WIDTH, MENU_FONT_HEIGHT);
 }
 
@@ -59,25 +59,25 @@ void menu1_show_enable_list(uint8_t focused){
     OLED_Clear();
     OLED_ShowString_fast(0, 0 * MENU_FONT_HEIGHT, "disable", MENU_FONT_HEIGHT); 
     OLED_ShowString_fast(0, 1 * MENU_FONT_HEIGHT, "enable", MENU_FONT_HEIGHT); 
-    OLED_ShowString_fast(0, 2* MENU_FONT_HEIGHT, "<---- Return", MENU_FONT_HEIGHT); // »òÕßÏÔÊ¾ "<----"
+    OLED_ShowString_fast(0, 2* MENU_FONT_HEIGHT, "<---- Return", MENU_FONT_HEIGHT); // æˆ–è€…æ˜¾ç¤º "<----"
 
-    // 6. ¸ßÁÁµ±Ç°Ñ¡ÖĞµÄĞĞ£¨Ö±½ÓÓÃ itemnum ×÷ÎªÒ³ÄÚĞĞºÅ£©
+    // 6. é«˜äº®å½“å‰é€‰ä¸­çš„è¡Œï¼ˆç›´æ¥ç”¨ itemnum ä½œä¸ºé¡µå†…è¡Œå·ï¼‰
     OLED_ReverseArea(0, focused * MENU_FONT_HEIGHT, MENU_PANEL_WIDTH, MENU_FONT_HEIGHT);
 
 }
 
 void menu1_show_num(uint8_t focused, uint8_t rate){
      uint8_t i;
-    // 1. ¼ÆËãµ±Ç°¾Û½¹ÏîËùÔÚµÄÒ³Âë (´Ó 1 ¿ªÊ¼)
+    // 1. è®¡ç®—å½“å‰èšç„¦é¡¹æ‰€åœ¨çš„é¡µç  (ä» 1 å¼€å§‹)
     uint8_t page = (focused / ITEMS_PER_PAGE) + 1;
     
-    // 2. ¼ÆËãµ±Ç°ÏîÔÚµ±Ç°Ò³ÄÚµÄÏà¶ÔË÷Òı (0 ~ ITEMS_PER_PAGE-1)
+    // 2. è®¡ç®—å½“å‰é¡¹åœ¨å½“å‰é¡µå†…çš„ç›¸å¯¹ç´¢å¼• (0 ~ ITEMS_PER_PAGE-1)
     uint8_t itemnum = focused % ITEMS_PER_PAGE;
     
-    // 3. ¼ÆËãµ±Ç°Ò³µÄÆğÊ¼²Ëµ¥ÏîË÷Òı
+    // 3. è®¡ç®—å½“å‰é¡µçš„èµ·å§‹èœå•é¡¹ç´¢å¼•
     uint8_t start_index = (page - 1) * ITEMS_PER_PAGE;
     
-    // 4. ¼ÆËãµ±Ç°Ò³µÄ½áÊø²Ëµ¥ÏîË÷Òı£¨·ÀÖ¹Ô½½ç£©
+    // 4. è®¡ç®—å½“å‰é¡µçš„ç»“æŸèœå•é¡¹ç´¢å¼•ï¼ˆé˜²æ­¢è¶Šç•Œï¼‰
     uint8_t end_index = start_index + ITEMS_PER_PAGE;
     if (end_index > menu1_item_max) {
         end_index = menu1_item_max;
@@ -85,19 +85,19 @@ void menu1_show_num(uint8_t focused, uint8_t rate){
     
     OLED_Clear();
     
-    // 5. Ñ­»·»æÖÆµ±Ç°Ò³µÄÏî£¬Y ×ø±êÓ¦¸Ã¸ù¾İ¡°Ò³ÄÚĞĞºÅ (i - start_index)¡±À´¼ÆËã£¡
+    // 5. å¾ªç¯ç»˜åˆ¶å½“å‰é¡µçš„é¡¹ï¼ŒY åæ ‡åº”è¯¥æ ¹æ®â€œé¡µå†…è¡Œå· (i - start_index)â€æ¥è®¡ç®—ï¼
     for(i = start_index; i < end_index; i++){
-        uint8_t row_line = i - start_index; // Ò³ÄÚµÚ¼¸ĞĞ (0, 1, 2...)
+        uint8_t row_line = i - start_index; // é¡µå†…ç¬¬å‡ è¡Œ (0, 1, 2...)
 
         if (i == menu1_item_max-1) {
-             OLED_ShowString_fast(0, row_line * MENU_FONT_HEIGHT, "<---- Return", MENU_FONT_HEIGHT); // »òÕßÏÔÊ¾ "<----"
+             OLED_ShowString_fast(0, row_line * MENU_FONT_HEIGHT, "<---- Return", MENU_FONT_HEIGHT); // æˆ–è€…æ˜¾ç¤º "<----"
         } else {
         
             OLED_ShowNum(0, row_line * MENU_FONT_HEIGHT, (i)*rate, 3, MENU_FONT_HEIGHT);
         }
     }
     
-    // 6. ¸ßÁÁµ±Ç°Ñ¡ÖĞµÄĞĞ£¨Ö±½ÓÓÃ itemnum ×÷ÎªÒ³ÄÚĞĞºÅ£©
+    // 6. é«˜äº®å½“å‰é€‰ä¸­çš„è¡Œï¼ˆç›´æ¥ç”¨ itemnum ä½œä¸ºé¡µå†…è¡Œå·ï¼‰
     OLED_ReverseArea(0, itemnum * MENU_FONT_HEIGHT, MENU_PANEL_WIDTH, MENU_FONT_HEIGHT);  
 }
 
@@ -106,16 +106,16 @@ void menu1_show_pdcaps(uint8_t focused){
     uint8_t i;
     uint16_t voltage, current;
 
-    // 1. ¼ÆËãµ±Ç°¾Û½¹ÏîËùÔÚµÄÒ³Âë (´Ó 1 ¿ªÊ¼)
+    // 1. è®¡ç®—å½“å‰èšç„¦é¡¹æ‰€åœ¨çš„é¡µç  (ä» 1 å¼€å§‹)
     uint8_t page = (focused / ITEMS_PER_PAGE) + 1;
     
-    // 2. ¼ÆËãµ±Ç°ÏîÔÚµ±Ç°Ò³ÄÚµÄÏà¶ÔË÷Òı (0 ~ ITEMS_PER_PAGE-1)
+    // 2. è®¡ç®—å½“å‰é¡¹åœ¨å½“å‰é¡µå†…çš„ç›¸å¯¹ç´¢å¼• (0 ~ ITEMS_PER_PAGE-1)
     uint8_t itemnum = focused % ITEMS_PER_PAGE;
     
-    // 3. ¼ÆËãµ±Ç°Ò³µÄÆğÊ¼²Ëµ¥ÏîË÷Òı
+    // 3. è®¡ç®—å½“å‰é¡µçš„èµ·å§‹èœå•é¡¹ç´¢å¼•
     uint8_t start_index = (page - 1) * ITEMS_PER_PAGE;
     
-    // 4. ¼ÆËãµ±Ç°Ò³µÄ½áÊø²Ëµ¥ÏîË÷Òı£¨·ÀÖ¹Ô½½ç£©
+    // 4. è®¡ç®—å½“å‰é¡µçš„ç»“æŸèœå•é¡¹ç´¢å¼•ï¼ˆé˜²æ­¢è¶Šç•Œï¼‰
     uint8_t end_index = start_index + ITEMS_PER_PAGE;
     if (end_index > menu1_item_max) {
         end_index = menu1_item_max;
@@ -123,13 +123,13 @@ void menu1_show_pdcaps(uint8_t focused){
     
     OLED_Clear();
     
-    // 5. Ñ­»·»æÖÆµ±Ç°Ò³µÄÏî£¬Y ×ø±êÓ¦¸Ã¸ù¾İ¡°Ò³ÄÚĞĞºÅ (i - start_index)¡±À´¼ÆËã£¡
+    // 5. å¾ªç¯ç»˜åˆ¶å½“å‰é¡µçš„é¡¹ï¼ŒY åæ ‡åº”è¯¥æ ¹æ®â€œé¡µå†…è¡Œå· (i - start_index)â€æ¥è®¡ç®—ï¼
     for(i = start_index; i < end_index; i++){
-        uint8_t row_line = i - start_index; // Ò³ÄÚµÚ¼¸ĞĞ (0, 1, 2...)
+        uint8_t row_line = i - start_index; // é¡µå†…ç¬¬å‡ è¡Œ (0, 1, 2...)
         PD_PDO_Analyse(i+1,&Adapter_SrcCap[1],&current,&voltage);
 
         if (i == menu1_item_max-1) {
-             OLED_ShowString_fast(0, row_line * MENU_FONT_HEIGHT, "<---- Return", MENU_FONT_HEIGHT); // »òÕßÏÔÊ¾ "<----"
+             OLED_ShowString_fast(0, row_line * MENU_FONT_HEIGHT, "<---- Return", MENU_FONT_HEIGHT); // æˆ–è€…æ˜¾ç¤º "<----"
         } else {
         
             OLED_ShowNum(0, row_line * MENU_FONT_HEIGHT, i + 1, 1, MENU_FONT_HEIGHT);
@@ -138,22 +138,22 @@ void menu1_show_pdcaps(uint8_t focused){
         }
     }
     
-    // 6. ¸ßÁÁµ±Ç°Ñ¡ÖĞµÄĞĞ£¨Ö±½ÓÓÃ itemnum ×÷ÎªÒ³ÄÚĞĞºÅ£©
+    // 6. é«˜äº®å½“å‰é€‰ä¸­çš„è¡Œï¼ˆç›´æ¥ç”¨ itemnum ä½œä¸ºé¡µå†…è¡Œå·ï¼‰
     OLED_ReverseArea(0, itemnum * MENU_FONT_HEIGHT, MENU_PANEL_WIDTH, MENU_FONT_HEIGHT);
 }
 
 void Show_Menu(uint8_t focused) {
     uint8_t i = 0;
-    // 1. ¼ÆËãµ±Ç°¾Û½¹ÏîËùÔÚµÄÒ³Âë (´Ó 1 ¿ªÊ¼)
+    // 1. è®¡ç®—å½“å‰èšç„¦é¡¹æ‰€åœ¨çš„é¡µç  (ä» 1 å¼€å§‹)
     uint8_t page = (focused / ITEMS_PER_PAGE) + 1;
     
-    // 2. ¼ÆËãµ±Ç°ÏîÔÚµ±Ç°Ò³ÄÚµÄÏà¶ÔË÷Òı (0 ~ ITEMS_PER_PAGE-1)
+    // 2. è®¡ç®—å½“å‰é¡¹åœ¨å½“å‰é¡µå†…çš„ç›¸å¯¹ç´¢å¼• (0 ~ ITEMS_PER_PAGE-1)
     uint8_t itemnum = focused % ITEMS_PER_PAGE;
     
-    // 3. ¼ÆËãµ±Ç°Ò³µÄÆğÊ¼²Ëµ¥ÏîË÷Òı
+    // 3. è®¡ç®—å½“å‰é¡µçš„èµ·å§‹èœå•é¡¹ç´¢å¼•
     uint8_t start_index = (page - 1) * ITEMS_PER_PAGE;
     
-    // 4. ¼ÆËãµ±Ç°Ò³µÄ½áÊø²Ëµ¥ÏîË÷Òı£¨·ÀÖ¹Ô½½ç£©
+    // 4. è®¡ç®—å½“å‰é¡µçš„ç»“æŸèœå•é¡¹ç´¢å¼•ï¼ˆé˜²æ­¢è¶Šç•Œï¼‰
     uint8_t end_index = start_index + ITEMS_PER_PAGE;
     if (end_index > MENU_COUNT) {
         end_index = MENU_COUNT;
@@ -161,14 +161,14 @@ void Show_Menu(uint8_t focused) {
 
     OLED_Clear();
    
-    // 5. Ë¢ĞÂµ±Ç°Ò³µÄ²Ëµ¥Ïî
+    // 5. åˆ·æ–°å½“å‰é¡µçš„èœå•é¡¹
     for (i = start_index; i < end_index; i++) {
-        // ¼ÆËãÔÚÆÁÄ»ÉÏµÄÏÔÊ¾ Y ×ø±ê
+        // è®¡ç®—åœ¨å±å¹•ä¸Šçš„æ˜¾ç¤º Y åæ ‡
         uint8_t y_pos = (i - start_index) * MENU_FONT_HEIGHT;
         OLED_ShowString_fast(0, y_pos, (char *)s_menu_items[i], MENU_FONT_HEIGHT);
     }
     
-    // 6. ¸ßÁÁµ±Ç°Ñ¡ÖĞµÄĞĞ
+    // 6. é«˜äº®å½“å‰é€‰ä¸­çš„è¡Œ
     OLED_ReverseArea(0, itemnum * MENU_FONT_HEIGHT, MENU_PANEL_WIDTH, MENU_FONT_HEIGHT);
 }
 
@@ -204,24 +204,24 @@ void Exit_Menu1(void){
 }
 
 void Enter_Menu(void) {
-    // ½«µ±Ç°ÆÁÄ»ÏÔ´æÍêÕû±¸·İµ½ºóÌ¨
+    // å°†å½“å‰å±å¹•æ˜¾å­˜å®Œæ•´å¤‡ä»½åˆ°åå°
     Backup_GRAM(&OLED_BgBuffer[0][0]);
     Show_Menu(0);
         
-    // ÇĞ»»µ½ÄãµÄ²Ëµ¥×´Ì¬
+    // åˆ‡æ¢åˆ°ä½ çš„èœå•çŠ¶æ€
     menu_activated = 1;
     menu1_activated = 0;
     item_selected = 0;
 }
 
 void Exit_Menu(void) {
-    // ½«±¸·İ»Ö¸´µ½ÏÔ´æ
+    // å°†å¤‡ä»½æ¢å¤åˆ°æ˜¾å­˜
     Restore_GRAM(&OLED_BgBuffer[0][0]);;
     
-    // Á¢¼´Ë¢ĞÂµ½ÆÁÄ»Ó²¼ş
-    //OLED_Refresh(); // »òÕß OLED_Refresh();
+    // ç«‹å³åˆ·æ–°åˆ°å±å¹•ç¡¬ä»¶
+    //OLED_Refresh(); // æˆ–è€… OLED_Refresh();
     
-    // ÇĞ»»»ØÖ÷½çÃæ×´Ì¬
+    // åˆ‡æ¢å›ä¸»ç•Œé¢çŠ¶æ€
     menu_activated = 0;
     menu1_activated = 0;
     item_selected = 0;
@@ -239,7 +239,7 @@ void Process_Menu(uint8_t event,int16_t diff){
                 if(menu1_activated){
                     switch(item_selected){
                         case 0:
-                        //×îºóÒ»ĞĞÊÇ·µ»Ø£¬ÆäËûÊÇ¼ÓÔØ´æ´¢µÄµçÑ¹µçÁ÷
+                        //æœ€åä¸€è¡Œæ˜¯è¿”å›ï¼Œå…¶ä»–æ˜¯åŠ è½½å­˜å‚¨çš„ç”µå‹ç”µæµ
                             if(menu1_item_selected != menu1_item_max-1)
                             {
                                 config_buffer.selected = menu1_item_selected;
@@ -249,11 +249,12 @@ void Process_Menu(uint8_t event,int16_t diff){
  
                             break;
                         case 1:
-                            //×îºóÒ»ĞĞÊÇ·µ»Ø£¬ÆäËûÔòÊÇ´æ´¢µ±Ç°ÉèÖÃµÄµçÑ¹ºÍµçÁ÷
+                            //æœ€åä¸€è¡Œæ˜¯è¿”å›ï¼Œå…¶ä»–åˆ™æ˜¯å­˜å‚¨å½“å‰è®¾ç½®çš„ç”µå‹å’Œç”µæµ
                             if(menu1_item_selected != menu1_item_max-1)
                             {
                                 config_buffer.VoltTarget[menu1_item_selected] = ADC_GetTargetOutputVoltage_mv();
-                                config_buffer.CurrentTarget[menu1_item_selected] = ADC_GetTargetCurrent_mA();                            
+                                config_buffer.CurrentTarget[menu1_item_selected] = ADC_GetTargetCurrent_mA();
+                                CfgUpdateToFlashFunc();
                             }
                             Exit_Menu1();
 
@@ -346,38 +347,38 @@ void Process_Menu(uint8_t event,int16_t diff){
                         if (diff > 0) {
                             menu1_item_selected++;
                             if (menu1_item_selected >= menu1_item_max) {
-                                menu1_item_selected = 0; // Ñ­»·µ½¿ªÍ·
+                                menu1_item_selected = 0; // å¾ªç¯åˆ°å¼€å¤´
                             }
                         } else {
                             menu1_item_selected--;
                             if (menu1_item_selected < 0) {
-                                menu1_item_selected = menu1_item_max - 1; // Ñ­»·µ½½áÎ²
+                                menu1_item_selected = menu1_item_max - 1; // å¾ªç¯åˆ°ç»“å°¾
                             }
                         }
 
-                        // 2. ¼ì²éµ±Ç° item_selected ÊÇ·ñ³¬³öÁËµ±Ç°ÏÔÊ¾µÄ¡°Ò³¡±£¬Èç¹û¿çÒ³ÁË¾ÍÖØ»æÕûÒ³
-                        // ÄãÒ²¿ÉÒÔ¸ù¾İĞèÇó£¬Ñ¡ÔñÃ¿´ÎÒÆ¶¯¶¼Ö±½Óµ÷ÓÃ Show_Menu(item_selected) Ë¢ĞÂÕûÒ³£¬
-                        // ÕâÑù×îÊ¡ĞÄÇÒ²»»á³öÏÖ¹â±êºÍ±³¾°²»Í¬²½µÄÎÊÌâ£º
+                        // 2. æ£€æŸ¥å½“å‰ item_selected æ˜¯å¦è¶…å‡ºäº†å½“å‰æ˜¾ç¤ºçš„â€œé¡µâ€ï¼Œå¦‚æœè·¨é¡µäº†å°±é‡ç»˜æ•´é¡µ
+                        // ä½ ä¹Ÿå¯ä»¥æ ¹æ®éœ€æ±‚ï¼Œé€‰æ‹©æ¯æ¬¡ç§»åŠ¨éƒ½ç›´æ¥è°ƒç”¨ Show_Menu(item_selected) åˆ·æ–°æ•´é¡µï¼Œ
+                        // è¿™æ ·æœ€çœå¿ƒä¸”ä¸ä¼šå‡ºç°å…‰æ ‡å’ŒèƒŒæ™¯ä¸åŒæ­¥çš„é—®é¢˜ï¼š
                         Show_Menu1(menu1_item_selected);
 
                     }else{
                         //printf("diff: %d\r\n",diff);
-                        // 1. ¸ù¾İ diff µ÷ÕûÑ¡ÖĞµÄÏî
+                        // 1. æ ¹æ® diff è°ƒæ•´é€‰ä¸­çš„é¡¹
                         if (diff > 0) {
                             item_selected++;
                             if (item_selected >= MENU_COUNT) {
-                                item_selected = 0; // Ñ­»·µ½¿ªÍ·
+                                item_selected = 0; // å¾ªç¯åˆ°å¼€å¤´
                             }
                         } else {
                             item_selected--;
                             if (item_selected < 0) {
-                                item_selected = MENU_COUNT - 1; // Ñ­»·µ½½áÎ²
+                                item_selected = MENU_COUNT - 1; // å¾ªç¯åˆ°ç»“å°¾
                             }
                         }
 
-                        // 2. ¼ì²éµ±Ç° item_selected ÊÇ·ñ³¬³öÁËµ±Ç°ÏÔÊ¾µÄ¡°Ò³¡±£¬Èç¹û¿çÒ³ÁË¾ÍÖØ»æÕûÒ³
-                        // ÄãÒ²¿ÉÒÔ¸ù¾İĞèÇó£¬Ñ¡ÔñÃ¿´ÎÒÆ¶¯¶¼Ö±½Óµ÷ÓÃ Show_Menu(item_selected) Ë¢ĞÂÕûÒ³£¬
-                        // ÕâÑù×îÊ¡ĞÄÇÒ²»»á³öÏÖ¹â±êºÍ±³¾°²»Í¬²½µÄÎÊÌâ£º
+                        // 2. æ£€æŸ¥å½“å‰ item_selected æ˜¯å¦è¶…å‡ºäº†å½“å‰æ˜¾ç¤ºçš„â€œé¡µâ€ï¼Œå¦‚æœè·¨é¡µäº†å°±é‡ç»˜æ•´é¡µ
+                        // ä½ ä¹Ÿå¯ä»¥æ ¹æ®éœ€æ±‚ï¼Œé€‰æ‹©æ¯æ¬¡ç§»åŠ¨éƒ½ç›´æ¥è°ƒç”¨ Show_Menu(item_selected) åˆ·æ–°æ•´é¡µï¼Œ
+                        // è¿™æ ·æœ€çœå¿ƒä¸”ä¸ä¼šå‡ºç°å…‰æ ‡å’ŒèƒŒæ™¯ä¸åŒæ­¥çš„é—®é¢˜ï¼š
                         Show_Menu(item_selected);
                     }
                 }
