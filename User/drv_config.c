@@ -6,19 +6,19 @@ CFG_params config_buffer;
 
 
 /**
- * @brief  ¼ÆËã CRC-16/MODBUS Ğ£ÑéÖµ
- * @param  data: Ö¸Ïò´ıĞ£ÑéÊı¾İµÄÖ¸Õë
- * @param  length: Êı¾İµÄ×Ö½Ú³¤¶È
- * @return uint16_t ¼ÆËã³öµÄ CRC Ğ£ÑéÂë
+ * @brief  è®¡ç®— CRC-16/MODBUS æ ¡éªŒå€¼
+ * @param  data: æŒ‡å‘å¾…æ ¡éªŒæ•°æ®çš„æŒ‡é’ˆ
+ * @param  length: æ•°æ®çš„å­—èŠ‚é•¿åº¦
+ * @return uint16_t è®¡ç®—å‡ºçš„ CRC æ ¡éªŒç 
  */
 uint16_t calculate_crc16_modbus(const uint8_t *data, uint16_t length) {
-    uint16_t crc = 0xFFFF; // ³õÊ¼Öµ
+    uint16_t crc = 0xFFFF; // åˆå§‹å€¼
 
     for (uint16_t i = 0; i < length; i++) {
-        crc ^= (uint16_t)data[i]; // Ã¿´ÎÒì»òÒ»¸ö×Ö½Ú
+        crc ^= (uint16_t)data[i]; // æ¯æ¬¡å¼‚æˆ–ä¸€ä¸ªå­—èŠ‚
         for (uint8_t j = 0; j < 8; j++) {
             if (crc & 0x0001) {
-                crc = (crc >> 1) ^ 0xA001; // ¶àÏîÊ½ 0x8005 µÄÎ»·´×ªĞÎÊ½
+                crc = (crc >> 1) ^ 0xA001; // å¤šé¡¹å¼ 0x8005 çš„ä½åè½¬å½¢å¼
             } else {
                 crc >>= 1;
             }
@@ -29,11 +29,11 @@ uint16_t calculate_crc16_modbus(const uint8_t *data, uint16_t length) {
 
 void Load_Default_CFG(void){
 
-    //0. ÏÈ³õÊ¼»¯Îª0
+    //0. å…ˆåˆå§‹åŒ–ä¸º0
     memset(&config_buffer,0,sizeof(config_buffer));
     
-    // 1. ¸øÅäÖÃ²ÎÊı¸³Öµ...
-    config_buffer.magicnumber = 0x30564346; // Ê¾ÀıÄ§Êı
+    // 1. ç»™é…ç½®å‚æ•°èµ‹å€¼...
+    config_buffer.magicnumber = 0x30564346; // ç¤ºä¾‹é­”æ•°
     config_buffer.VoltTarget[0] = VoltTarget1; //3.3V
     config_buffer.CurrentTarget[0] = CurrentTarget1; //1A
 
@@ -60,12 +60,12 @@ void Load_Default_CFG(void){
     //config_buffer.Reserved5 = 0;
     
 
-    // 2. ¼ÆËã CRC
-    // ¼ÆËã·¶Î§£º´Ó magicnumber ¿ªÊ¼£¬µ½ crc ×Ö¶ÎÖ®Ç°£¨¼´ sizeof(CFG_params) - sizeof(uint16_t)£©
+    // 2. è®¡ç®— CRC
+    // è®¡ç®—èŒƒå›´ï¼šä» magicnumber å¼€å§‹ï¼Œåˆ° crc å­—æ®µä¹‹å‰ï¼ˆå³ sizeof(CFG_params) - sizeof(uint16_t)ï¼‰
     uint16_t payload_len = sizeof(CFG_params) - sizeof(uint16_t) -sizeof(config_buffer.padding);
     config_buffer.crc = calculate_crc16_modbus((uint8_t*)&config_buffer, payload_len);
 
-    // 3. Ğ´Èë Flash£¨Ö±½ÓĞ´ 128 ×Ö½Ú£©
+    // 3. å†™å…¥ Flashï¼ˆç›´æ¥å†™ 128 å­—èŠ‚ï¼‰
     //flash_write(FLASH_ADDR, (uint8_t*)&my_config, sizeof(CFG_params));
 }
 
@@ -76,32 +76,35 @@ void CfgUpdateToFlashFunc()
     CFG_params* mconfig = &config_buffer;
     //CFG_params* config =  (CFG_params*)(Fadr);
 
-    //log_i("¿ªÊ¼²Á³ıFlashÅä\r\n");
+    uint16_t payload_len = sizeof(CFG_params) - sizeof(uint16_t) -sizeof(config_buffer.padding);
+    config_buffer.crc = calculate_crc16_modbus((uint8_t*)&config_buffer, payload_len);
+
+    //log_i("å¼€å§‹æ“¦é™¤Flashé…\r\n");
     uint8_t s = FLASH_ROM_ERASE(Fadr, Fsize*4);
     if(s != FLASH_COMPLETE)
     {
         printf("ERROR: ERASE FAIL\r\n");
         return;
-        //²Á³ıÊ§°Ü
+        //æ“¦é™¤å¤±è´¥
     }else {
-        //²Á³ıÍê³É
+        //æ“¦é™¤å®Œæˆ
         printf("ERASE success!\r\n");
     }
-    //log_i("¿ªÊ¼Ğ´ÈëFlashÅäÖÃ\r\n");
+    //log_i("å¼€å§‹å†™å…¥Flashé…ç½®\r\n");
     s = FLASH_ROM_WRITE(Fadr,(uint32_t*)mconfig, Fsize*4);
     if(s != FLASH_COMPLETE)
     {
         printf("ERROR: WRITE FAIL\r\n");
-        //Ğ´ÈëÊ§°Ü
+        //å†™å…¥å¤±è´¥
     }else {
-        //Ğ´ÈëÍê³É
+        //å†™å…¥å®Œæˆ
         printf("Write sucess!!\r\n");
         //Update_CFG();
     }
     //printf("test buffer size: %d\r\n",sizeof(test_buffer));
     //memcpy(&test_buffer,config,sizeof(test_buffer));
 }
-//ÉÏµçµÚÒ»´Î¸üĞÂÅäÖÃ£¬FLASHÈôÎŞÅäÖÃÔò½«Ä¬ÈÏÅäÖÃĞ´Èë
+//ä¸Šç”µç¬¬ä¸€æ¬¡æ›´æ–°é…ç½®ï¼ŒFLASHè‹¥æ— é…ç½®åˆ™å°†é»˜è®¤é…ç½®å†™å…¥
 void Update_CFG()
 {
     CFG_params* mconfig =  (CFG_params*)(Fadr);
@@ -122,7 +125,7 @@ void Update_CFG()
     uint16_t calculated_crc = calculate_crc16_modbus((uint8_t*)&config_buffer, payload_len);
 
     if (calculated_crc != config_buffer.crc) {
-        // ´íÎó´¦Àí£ºCRC Ğ£ÑéÊ§°Ü£¨Êı¾İËğ»µ£©£¬¼ÓÔØÄ¬ÈÏ²ÎÊı
+        // é”™è¯¯å¤„ç†ï¼šCRC æ ¡éªŒå¤±è´¥ï¼ˆæ•°æ®æŸåï¼‰ï¼ŒåŠ è½½é»˜è®¤å‚æ•°
         printf("Read config from flash: CRC ERROR!\r\n");
         Load_Default_CFG();
         CfgUpdateToFlashFunc();
